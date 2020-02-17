@@ -30,8 +30,9 @@ class GamesController < ApplicationController
     @score = 0
     url = "https://wagon-dictionary.herokuapp.com/#{answer}"
     api = JSON.parse(open(url).read)
-    if api['found'] == true && validate_answer(answer, letters)
+    if api['found'] && validate_answer(answer, letters)
       @score = (answer.size * 100) / (Time.now.to_i - start_time.to_i)
     end
+    @score = 'Not a word' unless api['found']
   end
 end
